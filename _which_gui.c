@@ -9,7 +9,6 @@
 char *_which(const char *cmd)
 {
 	char *path = getenv("PATH");
-	char *path_copy = _strdup(path);
 	char *dir, *full_path;
 	int path_length, cmd_length;
 	struct stat st;
@@ -19,11 +18,10 @@ char *_which(const char *cmd)
 	full_path = malloc(sizeof(char) * path_length * cmd_length + 2);
 	if (full_path == NULL)
 		return (NULL);
-	dir = strtok(path_copy, ":");
+	dir = strtok(path, ":");
 	while (dir != NULL)
 	{
-		full_path[0] = '\0';
-		_strcat(full_path, dir);
+		_strcpy(full_path, dir);
 		_strcat(full_path, "/");
 		_strcat(full_path, cmd);
 		if (stat(full_path, &st) == 0)
@@ -65,7 +63,6 @@ int main(int argc, char *argv[])
 			printf("argv[i] is %s and cmd_path is %s\n", argv[i], cmd_path);
 		}
 		i++;
-		free(cmd_path);
 	}
 	return (0);
 }
