@@ -33,11 +33,10 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 
 char *_getenv(const char *name)
 {
-	extern char **environ;
-	char **env = environ;
+	char **env = __environ;
 	size_t name_len = _strlen(name);
 
-	while(*env != NULL)
+	while (*env != NULL)
 	{
 		if (_strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
 		{
@@ -48,27 +47,12 @@ char *_getenv(const char *name)
 	}
 	return (NULL);
 }
-/**
-  * _setenv - sets an environment variable
-  * @name: 
-  * @value: 
-  * @overwite: 
-  * Return: 
-  */
-int _setenv(const char *name, const char *value, int overwrite)
-{
-	extern char **environ;
-	size_t len_value = _strlen(value);
-	size_t len_name = _strlen(name);
-	int result = 0;
-	char *name_value = malloc(len_name + len_value + 1);
-	char *old_value;
+
 /**
   * print_path_dir - prints path directories line by line
-  * Return : nothing
   *
   */
-void print_path_dir()
+void print_path_dir(void)
 {
 	char *path = _getenv("PATH");
 	char *delim = ":";
@@ -89,9 +73,9 @@ void print_path_dir()
 }
 /**
   * get_path_list - builds a linked list of path directories
-  * Return : path_list
+  * Return: linked list of directories
   */
-path_list *get_path_list()
+path_list *get_path_list(void)
 {
 	char *path = _getenv("PATH");
 	char *delim = ":", *dir;
@@ -104,11 +88,11 @@ path_list *get_path_list()
 	}
 	dir = strtok(path, delim);
 
-	while (dir !=NULL)
+	while (dir != NULL)
 	{
 		node = malloc(sizeof(path_list));
 		node->dir = _strdup(dir);
-		node-> next = NULL;
+		node->next = NULL;
 		if (head == NULL)
 		{
 			head = node;
@@ -123,16 +107,21 @@ path_list *get_path_list()
 	}
 	return (head);
 }
+/**
+  * print_path_list - prints a linked list of directories
+  * @head: pointer to the link list
+  * Return: nothing
+  */
 void print_path_list(path_list *head)
 {
 	path_list *node = head;
+
 	printf("\nPrinting path list directories\n");
-	while(node != NULL)
+	while (node != NULL)
 	{
 		printf("%s\n", node->dir);
 		node = node->next;
 	}
-	return;
 }
 /**
   * main - entry point
@@ -175,6 +164,7 @@ int main(void)
 {
 /*	print_path_dir();*/
 	path_list *head = get_path_list();
+
 	print_path_list(head);
 	return (0);
 }
