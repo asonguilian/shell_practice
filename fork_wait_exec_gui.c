@@ -8,12 +8,14 @@
   */
 
 int main(void)
-{
+{	
 	int i, status;
+	pid_t pid;
+	char *args[] = {"ls", "-l", "/tmp", NULL};
 
 	for (i = 0; i < 5; i++)
 	{
-		pid_t pid = fork();
+		pid = fork();
 
 		if (pid == -1)
 		{
@@ -22,8 +24,8 @@ int main(void)
 		}
 		else if (pid == 0)
 		{
-			execl("/bin/ls", "ls", "-l", "/tmp", NULL);
-			perror("execl");
+			execve("/bin/ls", args, NULL);
+			perror("execve");
 			return (1);
 		}
 		else

@@ -2,7 +2,7 @@
 
 /**
   * _which - finds the path to a given file(command)
-  * @cmd: the string containing the cmd 
+  * @cmd: the string containing the cmd
   * Return: the path to cmd
   */
 
