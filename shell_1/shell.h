@@ -8,8 +8,10 @@
 #include <sys/types.h>
 
 void putstring(char *string);
-void _getcmd(char **argv);
+int _getcmd(char **cmd);
 char *_strdup(char *str);
 char *_strcpy(char *src, char *dest);
+void exec(char *prompt, char *file);
+int _strlen(char *str);
 
 #endif /* SHELL_H */

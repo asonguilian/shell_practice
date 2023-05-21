@@ -3,32 +3,32 @@
 /**
  * _getcmd - gets a command from stdin
  * and replaces trailing \n with \0
- * @argv: the array to store the command passed
+ * @cmd: the command
  *
- * Return: Nothing
+ * Return: 0 or 1 (Success) 2 or 3 (Error)
  */
 
-void _getcmd(char **argv)
+int _getcmd(char **cmd)
 {
-	char *cmd;
 	size_t n = 0;
 	ssize_t leave;
+	int cmd_len;
 
-	cmd = NULL;
-	putstring("#cisfun$ ");
-	leave = getline(&cmd, &n, stdin);
+	cmd_len = _strlen(*cmd);
+	leave = getline(cmd, &n, stdin);
 
-	if (leave < 0)
+	if (leave == -1)
+		return (2);
+	if (leave == 0)
+		return (3);
+	if (*(*cmd + 0) == '\n')
+		return (1);
+
+	if (cmd_len > 0 && *(*cmd + cmd_len - 1) == '\n')
 	{
-		perror("getline");
-		free(cmd);
-	}
-	else
-	{
-		if (cmd[leave - 1] == '\n')
-			cmd[leave - 1] = '\0';
+		(*cmd)[cmd_len - 1] = '\0';
+		return (0);
 	}
 
-	argv[0] = _strdup(cmd);
-	free(cmd);
+	return (0);
 }
