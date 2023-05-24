@@ -62,7 +62,7 @@ int _strcmp(const char *s1, const char *s2)
 		n = l1;
 	else
 		n = l2;
-	for (i =0; i < n; i++)
+	for (i = 0; i < n; i++)
 	{
 		dif = s1[i] - s2[i];
 		if (dif != 0)
